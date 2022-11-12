@@ -1,6 +1,6 @@
 package telran.multithreading.raceGame;
 
-public class Runner extends Thread {
+public class Runner implements Runnable {
 	public Runner(int[] sleeps) {
 		this.sleeps = sleeps;
 	}
@@ -12,7 +12,7 @@ public class Runner extends Thread {
 		for (int i = 0; i < sleeps.length; i++) {
 			try {
 				if (ThreadsRace.flWinner) {
-					Thread.currentThread().join();
+					return;
 				}
 				System.out.printf("Thread#%s is running very fast;\n", Thread.currentThread().getName());
 				Thread.sleep(sleeps[i]);
