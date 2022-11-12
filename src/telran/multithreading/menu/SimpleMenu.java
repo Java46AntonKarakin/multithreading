@@ -33,7 +33,7 @@ public class SimpleMenu {
 
 	private int getInputValue() throws Exception {
 		System.out.println(String.format("*".repeat(20)));
-		System.out.println(String.format("Enter number", games.size() + 1));
+		System.out.println(String.format("Enter number from list below", games.size() + 1));
 		System.out.println(String.format("*".repeat(20)));
 		for (int i = 0; i < games.size() + 1; i++) {
 			if (i == games.size()) {

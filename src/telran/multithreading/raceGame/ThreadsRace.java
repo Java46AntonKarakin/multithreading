@@ -37,10 +37,10 @@ public class ThreadsRace implements Game {
 
 	private void getParameters(Scanner scanner) {
 		try {
-			System.out.printf("Input number of threads [%d - %d]:\n", MIN_PARTICIPANTS, MAX_PARTICIPANTS);
+			System.out.printf("Enter number of threads [%d - %d]:\n", MIN_PARTICIPANTS, MAX_PARTICIPANTS);
 			participants = scanner.nextInt();
 			checkInput(participants, MIN_PARTICIPANTS, MAX_PARTICIPANTS);
-			System.out.printf("Input length of the distance [%d - %d]:\n", MIN_DISTANCE, MAX_DISTANCE);
+			System.out.printf("Enter length of the distance [%d - %d]:\n", MIN_DISTANCE, MAX_DISTANCE);
 			distance = scanner.nextInt();
 			checkInput(distance, MIN_DISTANCE, MAX_DISTANCE);
 		} catch (Exception ex) {
@@ -57,7 +57,7 @@ public class ThreadsRace implements Game {
 	private void checkInput(int value, int min, int max) throws Exception {
 		if (value < min || value > max) {
 			throw new IllegalArgumentException(String.format(
-					"\"%d\" is wrong. Should be in range [%d - %d];\nWhy, Mr. Anderson?, Why, why?\n", value, min, max));
+					"\"%d\" is wrong. Should be in range [%d - %d];\nWhy, Mr. Anderson? Why, why?\n", value, min, max));
 		}
 	}
 }
