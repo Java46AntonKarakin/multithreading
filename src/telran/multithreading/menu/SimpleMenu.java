@@ -14,7 +14,10 @@ public class SimpleMenu {
 	public void launchMenu() {
 		try (scanner;){
 			int insertedValue = getInputValue();
-
+			
+			if (insertedValue < 0 || insertedValue > games.size()+1) {
+				throw new IllegalArgumentException(String.format("\"%d\" is wrong number, should be in range [1 - %d]",insertedValue, (games.size()+1)));
+			}
 			if (insertedValue == games.size() + 1) {
 				System.out.println("\nThanks for playing!\n");
 				return;
@@ -24,9 +27,8 @@ public class SimpleMenu {
 					games.get(insertedValue - 1).getGameName());
 			games.get(insertedValue - 1).launchGame(scanner);
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			System.out.println(ex.getMessage());
 		}
-
 	}
 
 	private int getInputValue() throws Exception {

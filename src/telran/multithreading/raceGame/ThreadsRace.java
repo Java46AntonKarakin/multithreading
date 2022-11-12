@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 import telran.multithreading.menu.Game;
 
-public class RaceGame implements Game {
+public class ThreadsRace implements Game {
 
 	private static String gameName = "ThreadRacingGame";
 
@@ -22,7 +22,7 @@ public class RaceGame implements Game {
 	private int distance;
 	static boolean flWinner;
 
-	public RaceGame() {
+	public ThreadsRace() {
 		flWinner = false;
 	}
 

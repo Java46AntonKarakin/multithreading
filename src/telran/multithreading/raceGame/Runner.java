@@ -11,7 +11,7 @@ public class Runner extends Thread {
 	public void run() {
 		for (int i = 0; i < sleeps.length; i++) {
 			try {
-				if (RaceGame.flWinner) {
+				if (ThreadsRace.flWinner) {
 					return;
 				}
 				System.out.printf("Thread#%s is running very fast;\n", Thread.currentThread().getName());
@@ -20,8 +20,8 @@ public class Runner extends Thread {
 				System.out.println("Thread has been interrupted");
 			}
 		}
-		if (!RaceGame.flWinner) {
-			RaceGame.flWinner = true;
+		if (!ThreadsRace.flWinner) {
+			ThreadsRace.flWinner = true;
 			System.out.println(String.format("Congratulations to thread #%s;", Thread.currentThread().getName()));
 		}
 	}
