@@ -14,7 +14,7 @@ public class Runner extends Thread {
 				if (RaceGame.flWinner) {
 					return;
 				}
-				System.out.printf("Runner#%s is running very fast;\n", Thread.currentThread().getName());
+				System.out.printf("Thread#%s is running very fast;\n", Thread.currentThread().getName());
 				Thread.sleep(sleeps[i]);
 			} catch (InterruptedException e) {
 				System.out.println("Thread has been interrupted");

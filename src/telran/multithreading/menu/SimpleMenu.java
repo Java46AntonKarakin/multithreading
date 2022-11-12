@@ -9,14 +9,14 @@ public class SimpleMenu {
 	}
 
 	private ArrayList<Game> games = new ArrayList<>();
-	Scanner scanner = new Scanner(System.in);
+	final Scanner scanner = new Scanner(System.in);
 
 	public void launchMenu() {
-		try {
+		try (scanner;){
 			int insertedValue = getInputValue();
 
 			if (insertedValue == games.size() + 1) {
-				System.out.println("\nThanks for playing!\nSee ya");
+				System.out.println("\nThanks for playing!\n");
 				return;
 			}
 
@@ -30,6 +30,9 @@ public class SimpleMenu {
 	}
 
 	private int getInputValue() throws Exception {
+		System.out.println(String.format("*".repeat(20)));
+		System.out.println(String.format("Enter number", games.size() + 1));
+		System.out.println(String.format("*".repeat(20)));
 		for (int i = 0; i < games.size() + 1; i++) {
 			if (i == games.size()) {
 				System.out.println(String.format("%d - Exit;", games.size() + 1));
