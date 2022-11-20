@@ -27,14 +27,19 @@ public class SimpleMenu {
 				launchSelectedGame(insertedValue);
 				launchAfterMenu(insertedValue);
 			}
+		} catch (InputMismatchException  ex) {
+			scanner.next();
+			System.out.println("Input in not number. Try again");
+			launchMenu();
 		} catch (Exception ex) {
+			scanner.next();
 			System.out.println(ex.getMessage());
 			launchMenu();
 		}
 	}
 
 	private void launchSelectedGame(int insertedValue) throws InterruptedException {
-		System.out.printf(CHOSEN_GAME,games.get(insertedValue - 1).getGameName());
+		System.out.printf(CHOSEN_GAME, games.get(insertedValue - 1).getGameName());
 		Thread gameThread = new Thread(() -> {
 			games.get(insertedValue - 1).launchGame();
 		});
@@ -45,16 +50,13 @@ public class SimpleMenu {
 
 	private void checkInputValue(int insertedValue, int maxSize) {
 		if (insertedValue < 1 || insertedValue > maxSize) {
-			throw new IllegalArgumentException(
-					String.format(WRONG_INPUT, insertedValue, (games.size() + 1)));
+			throw new IllegalArgumentException(String.format(WRONG_INPUT, insertedValue, (games.size() + 1)));
 		}
 	}
 
 	private void launchAfterMenu(int gameIndex) throws Exception {
-		printHeader(new String[] { "\n", SPACER, AFTER_GAME, SPACER, });
-		System.out.println("1 - Repeat game;");
-		System.out.println("2 - Back to main menu;");
-		System.out.println("3 - Exit;");
+		printLines(new String[] { "\n", SPACER, AFTER_GAME, SPACER, });
+		printLines(new String[] { "\n", "1 - Repeat game;", "2 - Back to main menu;", "3 - Exit;" });
 		int input = scanner.nextInt();
 		checkInputValue(input, 3);
 		if (input == 1) {
@@ -63,18 +65,17 @@ public class SimpleMenu {
 		} else if (input == 2) {
 			launchMenu();
 		} else {
-		System.out.println(GOODBYE);
+			System.out.println(GOODBYE);
 		}
 	}
 
 	private int getInputValue() throws InputMismatchException {
-		printHeader(new String[] { "\n", SPACER, WELCOME_USER, "\n", SPACER });
-		System.out.println(" ".repeat(7) + "MAIN MENU");
-		showMenuOptions(games.size());
+		printLines(new String[] { "\n", SPACER, WELCOME_USER, "\n", SPACER, " ".repeat(7), "MAIN MENU" });
+		showMainMenuOptions(games.size());
 		return scanner.nextInt();
 	}
 
-	private void showMenuOptions(int maxSize) {
+	private void showMainMenuOptions(int maxSize) {
 		for (int i = 0; i < maxSize + 1; i++) {
 			if (i == maxSize) {
 				System.out.println(String.format("%d - Exit;", maxSize + 1));
@@ -84,7 +85,7 @@ public class SimpleMenu {
 		}
 	}
 
-	private void printHeader(String[] printable) {
+	private void printLines(String[] printable) {
 		for (String s : printable) {
 			System.out.println(s);
 		}

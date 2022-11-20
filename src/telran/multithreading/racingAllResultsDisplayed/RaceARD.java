@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import telran.multithreading.menu.Game;
 
 public class RaceARD implements Game {
-	private static String gameName = "Thread Racing Game v2.0";
+	private static String gameName = "Thread Racing Game v2.0 (show all results)";
 	private static final int MIN_SLEEP = 2;
 	private static final int MAX_SLEEP = 5;
 	private static final int MIN_DISTANCE = 100;

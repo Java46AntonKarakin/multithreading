@@ -9,7 +9,7 @@ import telran.multithreading.menu.Game;
 
 public class RaceWRD implements Game {
 
-	private static String gameName = "Thread Racing Game v1.0";
+	private static String gameName = "Thread Racing Game v1.0 (show only the winner's result)";
 	private static final int MIN_SLEEP = 2;
 	private static final int MAX_SLEEP = 5;
 	private static final int MIN_DISTANCE = 100;
