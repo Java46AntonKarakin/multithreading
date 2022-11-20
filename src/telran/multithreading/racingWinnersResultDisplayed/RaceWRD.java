@@ -16,8 +16,8 @@ public class RaceWRD implements Game {
 	private static final int MAX_DISTANCE = 3500;
 	private static final int MIN_PARTICIPANTS = 3;
 	private static final int MAX_PARTICIPANTS = 10;
-	private static final String enterPrtNumber = "Enter number of threads [%d - %d]:\n";
-	private static final String enterDstLength = "Enter length of the distance [%d - %d]:\n";
+	private static final String ENTER_PRT_NUMBER = "Enter number of threads [%d - %d]:\n";
+	private static final String ENTER_DST_NAME = "Enter length of the distance [%d - %d]:\n";
 	private static final String CONGS_TO_WINNER = "Thread#%s is a winner with result %dms;";
 	private int participants;
 	private int[] distance = new int[1];
@@ -30,8 +30,8 @@ public class RaceWRD implements Game {
 		flWinner = false;
 		
 		try {
-			participants = getInputValue(scanner, enterPrtNumber, MIN_PARTICIPANTS, MAX_PARTICIPANTS);
-			distance[0] = getInputValue(scanner, enterDstLength, MIN_DISTANCE, MAX_DISTANCE);
+			participants = getInputValue(scanner, ENTER_PRT_NUMBER, MIN_PARTICIPANTS, MAX_PARTICIPANTS);
+			distance[0] = getInputValue(scanner, ENTER_DST_NAME, MIN_DISTANCE, MAX_DISTANCE);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			launchGame();

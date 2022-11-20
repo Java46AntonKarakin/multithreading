@@ -16,8 +16,8 @@ public class RaceARD implements Game {
 	private static final int MAX_PARTICIPANTS = 10;
 	private static final String RESULT_FORM = "  %s    |    %s    |     %s\n";
 	private static final String RESULT_HEADER = "place  | time, ms  |  thread №";
-	private static final String enterPrtNumber = "Enter number of threads [%d - %d]:\n";
-	private static final String enterDstLength = "Enter length of the distance [%d - %d]:\n";
+	private static final String ENTER_PRT_NUMBER = "Enter number of threads [%d - %d]:\n";
+	private static final String ENTER_DST_NAME = "Enter length of the distance [%d - %d]:\n";
 	private int participants;
 	private int distance;
 	private TreeMap<Long, String> results = new TreeMap<>();
@@ -30,8 +30,8 @@ public class RaceARD implements Game {
 	@Override
 	public void launchGame() {
 		try {
-			participants = getInputValue(scanner, enterPrtNumber, MIN_PARTICIPANTS, MAX_PARTICIPANTS);
-			distance = getInputValue(scanner, enterDstLength, MIN_DISTANCE, MAX_DISTANCE);
+			participants = getInputValue(scanner, ENTER_PRT_NUMBER, MIN_PARTICIPANTS, MAX_PARTICIPANTS);
+			distance = getInputValue(scanner, ENTER_DST_NAME, MIN_DISTANCE, MAX_DISTANCE);
 			for (int i = 0; i < participants; i++) {
 				createNewRacer(i, group).start();
 			}
