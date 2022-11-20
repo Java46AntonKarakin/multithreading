@@ -69,6 +69,7 @@ public class RaceARD implements Game {
 		}
 		if (--participants == 0) {
 			printResults();
+			results.clear();
 		}
 	}
 
