@@ -3,6 +3,10 @@ package telran.multithreading.menu;
 import java.util.*;
 
 public class SimpleMenu {
+	private final String WELCOME_USER = "Wellcome to \"5000 games in 1\"\nSelect game from the list below";
+	private final String SPACER = "*".repeat(20);
+	private final String AFTER_GAME = "Whats next?";
+	private final String GOODBYE = "\nSee ya!\n";
 
 	public SimpleMenu(Game... games) {
 		this.games = new ArrayList<>(Arrays.asList(games));
@@ -14,41 +18,74 @@ public class SimpleMenu {
 	public void launchMenu() {
 		try {
 			int insertedValue = getInputValue();
-
-			if (insertedValue < 0 || insertedValue > games.size() + 1) {
-				throw new IllegalArgumentException(String.format("\"%d\" is wrong, should be in range [1 - %d]",
-						insertedValue, (games.size() + 1)));
-			}
+			checkInputValue(insertedValue, games.size() + 1);
 			if (insertedValue == games.size() + 1) {
-				System.out.println("\nYou didn't even try...\n");
-				return;
+				System.out.println(GOODBYE);
+			} else {
+				launchSelectedGame(insertedValue);
+				launchAfterMenu(insertedValue);
 			}
-
-			System.out.printf("*".repeat(20) + "\n%s\n" + "*".repeat(20) + "\n",
-					games.get(insertedValue - 1).getGameName());
-			games.get(insertedValue - 1).launchGame();
-		} catch (IllegalArgumentException ex) {
+		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
-			launchMenu();
-		} catch (InputMismatchException ex) {
-			System.out.println("Enter number of the game\n");
 			launchMenu();
 		}
 	}
 
+	private void launchSelectedGame(int insertedValue) throws InterruptedException {
+		System.out.printf("*".repeat(20) + "\n%s\n" + "*".repeat(20) + "\n",
+				games.get(insertedValue - 1).getGameName());
+		Thread gameThread = new Thread(() -> {
+			games.get(insertedValue - 1).launchGame();
+		});
+		gameThread.start();
+		gameThread.join();
+		Thread.sleep(1000);
+	}
+
+	private void checkInputValue(int insertedValue, int maxSize) {
+		if (insertedValue < 1 || insertedValue > maxSize) {
+			throw new IllegalArgumentException(
+					String.format("\"%d\" is wrong, should be in range [1 - %d]", insertedValue, (games.size() + 1)));
+		}
+	}
+
+	private void launchAfterMenu(int gameIndex) throws Exception {
+		printHeader(new String[] { "\n", SPACER, AFTER_GAME, SPACER, });
+		System.out.println("1 - Repeat game;");
+		System.out.println("2 - Back to main menu;");
+		System.out.println("3 - Exit;");
+		int input = scanner.nextInt();
+		checkInputValue(input, 3);
+		if (input == 1) {
+			launchSelectedGame(gameIndex);
+			launchAfterMenu(gameIndex);
+		} else if (input == 2) {
+			launchMenu();
+		} else {
+		System.out.println(GOODBYE);
+		}
+	}
+
 	private int getInputValue() throws InputMismatchException {
-		System.out.println(String.format("*".repeat(20)));
-		System.out.println(
-				String.format("Wellcome to \"5000 games in 1\"\nSelect game from the list below\n", games.size() + 1));
-		System.out.println(String.format("*".repeat(20)));
-		for (int i = 0; i < games.size() + 1; i++) {
-			if (i == games.size()) {
-				System.out.println(String.format("%d - Exit;", games.size() + 1));
+		printHeader(new String[] { "\n", SPACER, WELCOME_USER, "\n", SPACER });
+		System.out.println(" ".repeat(7) + "MAIN MENU");
+		showMenuOptions(games.size());
+		return scanner.nextInt();
+	}
+
+	private void showMenuOptions(int maxSize) {
+		for (int i = 0; i < maxSize + 1; i++) {
+			if (i == maxSize) {
+				System.out.println(String.format("%d - Exit;", maxSize + 1));
 			} else {
 				System.out.printf("%d - %s;\n", i + 1, games.get(i).getGameName());
 			}
 		}
-		return scanner.nextInt();
+	}
 
+	private void printHeader(String[] printable) {
+		for (String s : printable) {
+			System.out.println(s);
+		}
 	}
 }

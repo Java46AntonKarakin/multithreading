@@ -1,7 +1,6 @@
 package telran.multithreading.racingAllResultsDisplayed;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -22,18 +21,15 @@ public class RaceARD implements Game {
 	private TreeMap<Long, String> results = new TreeMap<>();
 	private static final Object mutex = new Object();
 	Scanner scanner = new Scanner(System.in);
+	ThreadGroup group = new ThreadGroup("racers");
 
 	@Override
 	public void launchGame() {
 		try {
-			// ask user to put number of the racers and length of the distance
 			participants = getInputValue(scanner, enterPrtNumber, MIN_PARTICIPANTS, MAX_PARTICIPANTS);
 			distance = getInputValue(scanner, enterDstLength, MIN_DISTANCE, MAX_DISTANCE);
-
-			// create threads (i.e. racers)
-			ThreadGroup group = new ThreadGroup("racers");
 			for (int i = 0; i < participants; i++) {
-				getRacer(i, group).start();
+				createNewRacer(i, group).start();
 			}
 			group.interrupt();
 		} catch (IllegalArgumentException e) {
@@ -42,16 +38,11 @@ public class RaceARD implements Game {
 		}
 	}
 
-	// creating racers
-	private Thread getRacer(int currIndex, ThreadGroup group) {
+	private Thread createNewRacer(int currIndex, ThreadGroup group) {
 		return new Thread(group, () -> {
 			try {
-//				System.out.printf("Thread#%s joined at %s\n", Thread.currentThread().getName(),
-//						LocalDateTime.now().format(DateTimeFormatter.ofPattern("H:mm:s.n")));
 				Thread.currentThread().join();
 			} catch (InterruptedException e1) {
-//				System.out.printf("Thread#%s interruptet at %s\n", Thread.currentThread().getName(),
-//						LocalDateTime.now().format(DateTimeFormatter.ofPattern("H:mm:s.n")));
 				LocalDateTime start = LocalDateTime.now();
 				for (int i = 0; i < distance; i++) {
 					try {
@@ -60,8 +51,6 @@ public class RaceARD implements Game {
 						e.printStackTrace();
 					}
 				}
-//				System.out.printf("Thread#%s finished at %s\n", Thread.currentThread().getName(),
-//						LocalDateTime.now().format(DateTimeFormatter.ofPattern("H:mm:s.n")));
 				handleResult(ChronoUnit.MILLIS.between(start, LocalDateTime.now()), Thread.currentThread().getName());
 			}
 		}, "" + (currIndex + 1));
@@ -72,9 +61,6 @@ public class RaceARD implements Game {
 		return gameName;
 	}
 
-	// each racer puts his summary (it's name and the time between start and finish)
-	// to the summary table (TreeMap)
-	// racers with the same time will share the place in the summary table
 	private void handleResult(long result, String threadName) {
 		synchronized (mutex) {
 			results.merge(result, threadName, (v1, v2) -> {
