@@ -23,7 +23,6 @@ public class RaceWRD implements Game {
 	private int[] distance = new int[1];
 	private boolean flWinner;
 	Scanner scanner = new Scanner(System.in);
-	private static Object mutex = new Object();
 
 	@Override
 	public void launchGame() {
@@ -68,10 +67,14 @@ public class RaceWRD implements Game {
 	private synchronized boolean isWinner() {
 		return flWinner;
 	}
+	
+	private synchronized void setWinner() {
+		flWinner = true;
+	}
 
 	private void becomeWinner(String name, long result) {
 		if (!isWinner()) {
-			flWinner = true;
+			setWinner();
 			System.out.printf(CONGS_TO_WINNER, name, result);
 		}
 	}
