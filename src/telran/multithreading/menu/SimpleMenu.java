@@ -3,10 +3,12 @@ package telran.multithreading.menu;
 import java.util.*;
 
 public class SimpleMenu {
-	private final String WELCOME_USER = "Wellcome to \"5000 games in 1\"\nSelect game from the list below";
-	private final String SPACER = "*".repeat(20);
-	private final String AFTER_GAME = "Whats next?";
-	private final String GOODBYE = "\nSee ya!\n";
+	private static final String CHOSEN_GAME = "*".repeat(20) + "\n%s\n" + "*".repeat(20) + "\n";
+	private static final String WELCOME_USER = "Wellcome to \"5000 games in 1\"\nSelect game from the list below";
+	private static final String SPACER = "*".repeat(20);
+	private static final String AFTER_GAME = "Whats next?";
+	private static final String GOODBYE = "\nSee ya!\n";
+	private static final String WRONG_INPUT = "\"%d\" is wrong, should be in range [1 - %d]";
 
 	public SimpleMenu(Game... games) {
 		this.games = new ArrayList<>(Arrays.asList(games));
@@ -32,8 +34,7 @@ public class SimpleMenu {
 	}
 
 	private void launchSelectedGame(int insertedValue) throws InterruptedException {
-		System.out.printf("*".repeat(20) + "\n%s\n" + "*".repeat(20) + "\n",
-				games.get(insertedValue - 1).getGameName());
+		System.out.printf(CHOSEN_GAME,games.get(insertedValue - 1).getGameName());
 		Thread gameThread = new Thread(() -> {
 			games.get(insertedValue - 1).launchGame();
 		});
@@ -45,7 +46,7 @@ public class SimpleMenu {
 	private void checkInputValue(int insertedValue, int maxSize) {
 		if (insertedValue < 1 || insertedValue > maxSize) {
 			throw new IllegalArgumentException(
-					String.format("\"%d\" is wrong, should be in range [1 - %d]", insertedValue, (games.size() + 1)));
+					String.format(WRONG_INPUT, insertedValue, (games.size() + 1)));
 		}
 	}
 

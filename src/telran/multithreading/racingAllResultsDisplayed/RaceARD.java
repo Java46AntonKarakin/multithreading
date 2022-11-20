@@ -14,12 +14,16 @@ public class RaceARD implements Game {
 	private static final int MAX_DISTANCE = 3500;
 	private static final int MIN_PARTICIPANTS = 3;
 	private static final int MAX_PARTICIPANTS = 10;
+	private static final String RESULT_FORM = "  %s    |    %s    |     %s\n";
+	private static final String RESULT_HEADER = "place  | time, ms  |  thread №";
 	private static final String enterPrtNumber = "Enter number of threads [%d - %d]:\n";
 	private static final String enterDstLength = "Enter length of the distance [%d - %d]:\n";
 	private int participants;
 	private int distance;
 	private TreeMap<Long, String> results = new TreeMap<>();
 	private static final Object mutex = new Object();
+
+
 	Scanner scanner = new Scanner(System.in);
 	ThreadGroup group = new ThreadGroup("racers");
 
@@ -74,10 +78,10 @@ public class RaceARD implements Game {
 	}
 
 	private void printResults() {
-		System.out.println("place  | time, ms  |  thread №");
+		System.out.println(RESULT_HEADER);
 		int[] idx = { 1 };
 		results.entrySet().stream().forEach(e -> {
-			System.out.printf("  %s    |    %s    |     %s\n", idx[0]++, e.getKey(), e.getValue());
+			System.out.printf(RESULT_FORM, idx[0]++, e.getKey(), e.getValue());
 		});
 	}
 }

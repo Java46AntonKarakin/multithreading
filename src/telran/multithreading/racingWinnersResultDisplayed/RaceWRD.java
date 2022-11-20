@@ -18,6 +18,7 @@ public class RaceWRD implements Game {
 	private static final int MAX_PARTICIPANTS = 10;
 	private static final String enterPrtNumber = "Enter number of threads [%d - %d]:\n";
 	private static final String enterDstLength = "Enter length of the distance [%d - %d]:\n";
+	private static final String CONGS_TO_WINNER = "Thread#%s is a winner with result %dms;";
 	private int participants;
 	private int[] distance = new int[1];
 	private boolean flWinner;
@@ -46,7 +47,8 @@ public class RaceWRD implements Game {
 						try {
 							Thread.sleep(ThreadLocalRandom.current().nextInt(MIN_SLEEP, MAX_SLEEP));
 						} catch (InterruptedException e) {
-							System.out.println("Thread has been interrupted");
+							System.out.printf("Thread %s\n", Thread.currentThread().getName());
+							e.printStackTrace();
 						}
 					}
 					becomeWinner(Thread.currentThread().getName(),
@@ -67,7 +69,7 @@ public class RaceWRD implements Game {
 		synchronized (mutex) {
 			if (!flWinner) {
 				flWinner = true;
-				System.out.printf("Thread#%s is a winner with result %dms;", name, result);
+				System.out.printf(CONGS_TO_WINNER, name, result);
 			}
 		}
 	}
