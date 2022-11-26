@@ -33,11 +33,11 @@ public class Truck extends Thread {
 	private static void loadElevator2(int load) {
 		boolean counterIncreased = false;
 		while (!lock1.tryLock()) {
-//			if (!counterIncreased) {
-//				counterIncreased = true;
-//				waitingCounter.incrementAndGet();
-//			}
-			waitingCounter.incrementAndGet();
+			if (!counterIncreased) {
+				counterIncreased = true;
+				waitingCounter.incrementAndGet();
+			}
+//			waitingCounter.incrementAndGet();
 		}
 		try {
 			elevator2 += load;
@@ -49,11 +49,11 @@ public class Truck extends Thread {
 	static private void loadElevator1(int load, Lock lock) {
 		boolean counterIncreased = false;
 		while (!lock.tryLock()) {
-//			if (!counterIncreased) {
-//				counterIncreased = true;
-//				waitingCounter.incrementAndGet();
-//			}
-			waitingCounter.incrementAndGet();
+			if (!counterIncreased) {
+				counterIncreased = true;
+				waitingCounter.incrementAndGet();
+			}
+//			waitingCounter.incrementAndGet();
 		}
 		try {
 			elevator1 += load;
